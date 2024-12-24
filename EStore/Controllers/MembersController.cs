@@ -59,5 +59,26 @@ namespace EStore.Controllers
                 db.SaveChanges();
             }
         }
+
+        public ActionResult ActiveRegister(int memberId, string confirmCode)
+        {
+            ProcessActiveRegister(memberId, confirmCode);
+
+            return View();
+        }
+
+        private void ProcessActiveRegister(int memberId, string confirmCode)
+        {
+            using (var db = new AppDbContext())
+            {
+                var member = db.Members.FirstOrDefault(x => x.Id == memberId && x.ConfirmCode == confirmCode && x.IsConfirmed == false);
+                if (member == null) return;
+
+                member.IsConfirmed = true;
+                member.ConfirmCode = null;
+
+                db.SaveChanges();
+            }
+        }
     }
 }
