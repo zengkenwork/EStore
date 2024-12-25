@@ -146,6 +146,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DTOs\RegisterDto.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\Cart.cs" />
     <Compile Include="Models\EFModels\CartItem.cs" />
@@ -156,6 +157,8 @@
     <Compile Include="Models\EFModels\Product.cs" />
     <Compile Include="Models\Infra\DAHelper.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
+    <Compile Include="Models\Repositories\MemberEFRepository.cs" />
+    <Compile Include="Models\Services\MemberServices.cs" />
     <Compile Include="Models\ViewModels\ChangePasswordVm.cs" />
     <Compile Include="Models\ViewModels\ForgotPasswordVm.cs" />
     <Compile Include="Models\ViewModels\LoginVm.cs" />

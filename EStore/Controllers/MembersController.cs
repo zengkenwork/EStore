@@ -1,5 +1,7 @@
-﻿using EStore.Models.EFModels;
+﻿using EStore.Models.DTOs;
+using EStore.Models.EFModels;
 using EStore.Models.Infra;
+using EStore.Models.Services;
 using EStore.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -42,28 +44,38 @@ namespace EStore.Controllers
 
         private void ProcessRegister(RegisterVm model)
         {
-            using (var db = new AppDbContext())
+            RegisterDto dto = new RegisterDto
             {
-                if(db.Members.Any(x => x.Account == model.Account))
-                {
-                    throw new Exception("帳號已存在");
-                }
+                Name = model.Name,
+                Account = model.Account,
+                Password = model.Password,
+                Email = model.Email,
+                Mobile = model.Mobile
+            };
 
-                var hashedPassword = HashUtility.ToSHA256(model.Password, HashUtility.GetSalt());
-                var member = new Member
-                {
-                    Account = model.Account,
-                    EncryptedPassword = hashedPassword,
-                    Name = model.Name,
-                    Email = model.Email,
-                    Mobile = model.Mobile,
-                    IsConfirmed = false,
-                    ConfirmCode = Guid.NewGuid().ToString("N")
-                };
+            new MemberServices().Register(dto);
+            //using (var db = new AppDbContext())
+            //{
+            //    if(db.Members.Any(x => x.Account == model.Account))
+            //    {
+            //        throw new Exception("帳號已存在");
+            //    }
 
-                db.Members.Add(member);
-                db.SaveChanges();
-            }
+            //    var hashedPassword = HashUtility.ToSHA256(model.Password, HashUtility.GetSalt());
+            //    var member = new Member
+            //    {
+            //        Account = model.Account,
+            //        EncryptedPassword = hashedPassword,
+            //        Name = model.Name,
+            //        Email = model.Email,
+            //        Mobile = model.Mobile,
+            //        IsConfirmed = false,
+            //        ConfirmCode = Guid.NewGuid().ToString("N")
+            //    };
+
+            //    db.Members.Add(member);
+            //    db.SaveChanges();
+            //}
         }
 
         public ActionResult ActiveRegister(int memberId, string confirmCode)
