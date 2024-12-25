@@ -26,14 +26,27 @@
 	.在 /Members/Index 加入修改個資的連結
 	.add /Models/ViewModels/ProfileVm class
 	.add /Members/Profile action
-		網址不要帶memberId, 從User.Identity.Name取得
+		-網址不要帶memberId, 從User.Identity.Name取得
 	.add Profile view page, 範本: edit
 
-[Working On] 實作變更密碼
+[V] 實作變更密碼
 	.在 /Members/Index {partial view} 加入變更密碼的連結
 	.add /Models/ViewModels/ChangePasswordVm class
 	.add /Members/ChangePassword action, 加入[Authorize]
 	.add ChangePassword view page, 範本: create
+	.為 ChangePassword view page 加入 partial view
+
+[Working On] 實作忘記密碼/重設密碼
+	.add /Models/ViewModels/ForgotPasswordVm class ,包括 account, email
+	.add /Members/ForgotPassword action
+	.add ForgotPassword view page, 範本: create
+		-比對 account, email, 若正確就 update confirmCode = guid, 並寄送Email
+	.postback,成功後, return View("ConfirmForgotPassword")
+	.add /Models/ViewModels/ResetPasswordVm class, 包括 password,confirmPassword
+	.add /Members/ResetPassword action, url = /Members/ReserPasword/?memberId=99&confirmCode=xxx
+	.add ResetPassword view page, 範本: create
+		-判斷 memberId, confirmCode 是否正確, 若正確就 update password, confirmCode = null
+	.修改 login view page, 加入 '忘記密碼' 的連結
 
 [] 實作發送 Email 功能
 [] 註冊成功後。寄送Email

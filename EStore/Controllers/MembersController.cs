@@ -202,7 +202,6 @@ namespace EStore.Controllers
             return View();
         }
 
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ChangePassword(ChangePasswordVm model)
@@ -213,7 +212,7 @@ namespace EStore.Controllers
                 var memberInDb = db.Members.First(x => x.Account == account);
                 if (!HashUtility.verifySHA256(model.OriginalPassword, memberInDb.EncryptedPassword))
                 {
-                    ModelState.AddModelError("OldPassword", "原密碼錯誤");
+                    ModelState.AddModelError("OriginalPassword", "原密碼錯誤");
                     return View(model);
                 }
 
@@ -223,6 +222,64 @@ namespace EStore.Controllers
                 TempData["Message"] = "密碼變更成功";
 
                 return RedirectToAction("Index");
+            }
+        }
+
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPassword(ForgotPasswordVm model)
+        {
+            using (var db = new AppDbContext())
+            {
+                var member = db.Members.FirstOrDefault(x => x.Account == model.Account && x.Email == model.Email);
+                if (member == null)
+                {
+                    ModelState.AddModelError("", "帳號或電子郵件錯誤");
+                    return View(model);
+                }
+
+                member.ConfirmCode = Guid.NewGuid().ToString("N");
+                db.SaveChanges();
+
+                string url = Url.Action("ResetPassword", "Members", new { memberId = member.Id, confirmCode = member.ConfirmCode }, Request.Url.Scheme);
+
+                return View("ConfirmForgotPassword");
+            }
+        }
+
+        public ActionResult ResetPassword (int memberId, string confirmCode)
+        {
+            using (var db = new AppDbContext())
+            {
+                var member = db.Members.FirstOrDefault(x => x.Id == memberId && x.ConfirmCode == confirmCode);
+                if (member == null) return View("ErrorResetPassword");
+                return View();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword (ResetPasswordVm model, int memberId, string confirmCode)
+        {
+            if (ModelState.IsValid == false || string.IsNullOrWhiteSpace(confirmCode)) return View(model);
+
+            using(var db = new AppDbContext())
+            {
+                var member = db.Members.FirstOrDefault(x => x.Id == memberId && x.ConfirmCode == confirmCode);
+                if (member == null) return View("ErrorResetPassword");
+
+                member.EncryptedPassword = HashUtility.ToSHA256(model.Password, HashUtility.GetSalt());
+                member.ConfirmCode = null;
+                db.SaveChanges();
+
+                TempData["Message"] = "密碼已變更";
+
+                return RedirectToAction("Index", "Home");
             }
         }
     }
