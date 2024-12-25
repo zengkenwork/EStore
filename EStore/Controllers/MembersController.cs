@@ -195,5 +195,35 @@ namespace EStore.Controllers
 
             }
         }
+
+        [Authorize]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(ChangePasswordVm model)
+        {
+            string account = User.Identity.Name;
+            using (var db = new AppDbContext())
+            {
+                var memberInDb = db.Members.First(x => x.Account == account);
+                if (!HashUtility.verifySHA256(model.OriginalPassword, memberInDb.EncryptedPassword))
+                {
+                    ModelState.AddModelError("OldPassword", "原密碼錯誤");
+                    return View(model);
+                }
+
+                memberInDb.EncryptedPassword = HashUtility.ToSHA256(model.NewPassword, HashUtility.GetSalt());
+                db.SaveChanges();
+
+                TempData["Message"] = "密碼變更成功";
+
+                return RedirectToAction("Index");
+            }
+        }
     }
 }

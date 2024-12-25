@@ -22,12 +22,18 @@
 	.modify _Layout.cshtml, add 登入/登出的連結(沒登入與已登入,要顯示不同連結)
 	.修改 Home/About action,將它設為必須登入才能檢視, 以便確認登入功能是否正常
 
-[Working On] 實作修改個資
+[V] 實作修改個資
 	.在 /Members/Index 加入修改個資的連結
 	.add /Models/ViewModels/ProfileVm class
 	.add /Members/Profile action
 		網址不要帶memberId, 從User.Identity.Name取得
 	.add Profile view page, 範本: edit
+
+[Working On] 實作變更密碼
+	.在 /Members/Index {partial view} 加入變更密碼的連結
+	.add /Models/ViewModels/ChangePasswordVm class
+	.add /Members/ChangePassword action, 加入[Authorize]
+	.add ChangePassword view page, 範本: create
 
 [] 實作發送 Email 功能
 [] 註冊成功後。寄送Email
