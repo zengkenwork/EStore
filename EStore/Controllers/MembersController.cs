@@ -155,5 +155,45 @@ namespace EStore.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Members");
         }
+         
+        [Authorize]
+        public ActionResult EditProfile()
+        {
+            string account = User.Identity.Name;
+            using (var db = new AppDbContext())
+            {
+                var member = db.Members.First(x => x.Account == account);
+                var model = new ProfileVm
+                {
+                    Account = member.Account,
+                    Email = member.Email,
+                    Name = member.Name,
+                    Mobile = member.Mobile
+                };
+                return View(model);
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProfile(ProfileVm model)
+        {
+            string account = User.Identity.Name;
+            using (var db = new AppDbContext())
+            {
+                var memberInDb = db.Members.First(x => x.Account == account);
+                memberInDb.Name = model.Name;
+                memberInDb.Email = model.Email;
+                memberInDb.Mobile = model.Mobile;
+
+                db.SaveChanges();
+
+                TempData["Message"] = "個人資料更新";
+
+                return RedirectToAction("Index");
+
+            }
+        }
     }
 }

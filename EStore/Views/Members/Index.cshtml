@@ -1,7 +1,23 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "會員中心";
 }
 
-<h2>Index</h2>
+@{ 
+    Html.RenderPartial("_MemberCenterNavbar");
+}
+<h2 class="fw-bolder mt-5">會員中心</h2>
+<div class="container">
+    <div class="row">
+        @if (TempData["Message"] != null)
+        {
+            <div class="col m-2 alert alert-success" role="alert">
+                @TempData["Message"]
+            </div>
+        }
+    </div>
+    <div class="row">
+        <h4 class="fw-bolder mt-5">進行中的訂單</h4>
+    </div>
+</div>
 
