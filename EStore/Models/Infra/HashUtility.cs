@@ -27,5 +27,11 @@ namespace EStore.Models.Infra
         {
             return System.Configuration.ConfigurationManager.AppSettings["Salt"];
         }
+
+        internal static bool verifySHA256(string password, string encryptedPassword)
+        {
+            var hashPwd = ToSHA256(password, GetSalt());
+            return hashPwd == encryptedPassword;
+        }
     }
 }
