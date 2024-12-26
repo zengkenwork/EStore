@@ -36,7 +36,7 @@
 	.add ChangePassword view page, 範本: create
 	.為 ChangePassword view page 加入 partial view
 
-[Working On] 實作忘記密碼/重設密碼
+[V] 實作忘記密碼/重設密碼
 	.add /Models/ViewModels/ForgotPasswordVm class ,包括 account, email
 	.add /Members/ForgotPassword action
 	.add ForgotPassword view page, 範本: create
@@ -48,7 +48,7 @@
 		-判斷 memberId, confirmCode 是否正確, 若正確就 update password, confirmCode = null
 	.修改 login view page, 加入 '忘記密碼' 的連結
 
-[Working On] 三層式架構
+[V] 三層式架構
 
 [] 實作發送 Email 功能
 [] 註冊成功後。寄送Email

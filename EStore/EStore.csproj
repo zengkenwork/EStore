@@ -228,6 +228,8 @@
     <Content Include="Views\Members\ChangePassword.cshtml" />
     <Content Include="Views\Members\ConfirmForgotPassword.cshtml" />
     <Content Include="Views\Members\ErrorResetPassword.cshtml" />
+    <Content Include="Views\Members\ForgotPassword.cshtml" />
+    <Content Include="Views\Members\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
