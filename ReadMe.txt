@@ -51,11 +51,15 @@
 [V] 三層式架構
 ==============================================================
 購物系統
-[Working On] 建立商品清單頁
+[V] 建立商品清單頁
 	.add /Models/ViewModels/ProductIndexVm class
 	.add ProductController, add Index action
 	.add Index view page, 範本: list, 用來顯示商品清單
 	-修改 _Layout.cshtml, 加入nav item
+
+[Working On] 加入購物車
+	.修改 Index.html
+	.add CartController, add AddItem(int productId) action
 
 [] 實作發送 Email 功能
 [] 註冊成功後。寄送Email

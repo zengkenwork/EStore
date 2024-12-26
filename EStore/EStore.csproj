@@ -141,6 +141,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\Repositories\MemberEFRepository.cs" />
     <Compile Include="Models\Services\MemberServices.cs" />
+    <Compile Include="Models\ViewModels\CartVm.cs" />
     <Compile Include="Models\ViewModels\ChangePasswordVm.cs" />
     <Compile Include="Models\ViewModels\ForgotPasswordVm.cs" />
     <Compile Include="Models\ViewModels\LoginVm.cs" />
@@ -237,6 +239,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Carts\" />
+    <Folder Include="Views\Cart\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
