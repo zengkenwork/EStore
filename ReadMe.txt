@@ -57,9 +57,12 @@
 	.add Index view page, 範本: list, 用來顯示商品清單
 	-修改 _Layout.cshtml, 加入nav item
 
-[Working On] 加入購物車
+[V] 加入購物車
 	.修改 Index.html
 	.add CartController, add AddItem(int productId) action
+
+[Working On] 顯示購物車資訊, 實作增減數量的功能
+	.modify CartController, addInfo action 顯示購物車明細, 這時的數量增減還不能運作
 
 [] 實作發送 Email 功能
 [] 註冊成功後。寄送Email

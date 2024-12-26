@@ -89,5 +89,14 @@ namespace EStore.Controllers
                 return cartVm;
             }
         }
+
+        [Authorize]
+        public ActionResult Info()
+        {
+            string account = User.Identity.Name;
+            var cart = GetCartInfo(account);
+
+            return View(cart);
+        }
     }
 }
