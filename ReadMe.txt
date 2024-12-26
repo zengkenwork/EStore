@@ -49,6 +49,13 @@
 	.修改 login view page, 加入 '忘記密碼' 的連結
 
 [V] 三層式架構
+==============================================================
+購物系統
+[Working On] 建立商品清單頁
+	.add /Models/ViewModels/ProductIndexVm class
+	.add ProductController, add Index action
+	.add Index view page, 範本: list, 用來顯示商品清單
+	-修改 _Layout.cshtml, 加入nav item
 
 [] 實作發送 Email 功能
 [] 註冊成功後。寄送Email

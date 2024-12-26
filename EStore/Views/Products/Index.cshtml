@@ -1,0 +1,79 @@
+﻿@using EStore.Models.ViewModels
+@model ProductFilterVm
+@{
+    ViewBag.Title = "商品清單";
+
+    var product = Model.Data.FirstOrDefault();
+}
+
+<h2>商品清單</h2>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+@using (Html.BeginForm("Index", "Products", FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label col-md-2" })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-1">
+            @Html.LabelFor(model => model.PriceStart, htmlAttributes: new { @class = "form-label col-md-2" })
+                @Html.EditorFor(model => model.PriceStart, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                @Html.ValidationMessageFor(model => model.PriceStart, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-1">
+            @Html.LabelFor(model => model.PriceEnd, htmlAttributes: new { @class = "form-label col-md-2" })
+                @Html.EditorFor(model => model.PriceEnd, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                @Html.ValidationMessageFor(model => model.PriceEnd, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-1">
+                <input type="submit" value="查詢" class="btn btn-success btn-sm" />
+        </div>
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => product.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => product.CategoryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => product.Price)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Data)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+            </td>
+        </tr>
+    }
+
+</table>
