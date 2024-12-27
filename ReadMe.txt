@@ -66,7 +66,7 @@
 	.add UpdateItem(productId, newQty) action
 	.在_layout 加入'購物車'連結
 
-[Working On] 實作結帳功能
+[V] 實作結帳功能
 	.add /Models/ViewModels/CheckoutVm class
 	.add CartController, add Checkout action
 	.add Checkout view page, 範本: create, model 是 CheckoutVm
