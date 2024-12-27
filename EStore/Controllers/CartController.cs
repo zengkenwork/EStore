@@ -132,5 +132,87 @@ namespace EStore.Controllers
                 db.SaveChanges();
             }
         }
+
+        [Authorize]
+        public ActionResult Checkout()
+        {
+            string account = User.Identity.Name;
+            var cart = GetCartInfo(account);
+
+            if(cart.AllowCheckout == false)
+            {
+                return Content("購物車內沒有商品, 無法結帳");
+            }
+
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Checkout(CheckoutVm model)
+        {
+            string account = User.Identity.Name;
+            var cart = GetCartInfo(account);
+
+            if (cart.AllowCheckout == false)
+            {
+                return Content("購物車內沒有商品, 無法結帳");
+            }
+
+            CreateOrder(account, model);
+
+            EmptyCart(account);
+
+            return View("ConfirmCheckout");
+        }
+
+        private void EmptyCart(string account)
+        {
+            using (var db = new AppDbContext())
+            {
+                var cart = db.Carts.FirstOrDefault(x => x.MemberAccount == account);
+                if (cart == null) return;
+
+                db.Carts.Remove(cart);
+                db.SaveChanges();
+            }
+        }
+
+        private void CreateOrder(string account, CheckoutVm model)
+        {
+            using (var db = new AppDbContext())
+            {
+                var cart = GetCartInfo(account);
+                var order = new Order
+                {
+                    MemberId = db.Members.First(x => x.Account == account).Id,
+                    Receiver = model.Receiver,
+                    Address = model.Address,
+                    CellPhone = model.CellPhone,
+
+                    Total = cart.Total,
+                    CreatedTime = DateTime.Now,
+                    Status = 1
+                };
+
+                foreach (var item in cart.CartItems)
+                {
+                    var orderItem = new OrderItem
+                    {
+                        Order = order,
+                        ProductId = item.ProductId,
+                        ProductName = item.Product.Name,
+                        Qty = item.Qty,
+                        Price = item.Product.Price,
+                        SubTotal = item.SubTotal
+                    };
+                    db.OrderItems.Add(orderItem);
+                }
+
+                db.Orders.Add(order);
+                db.SaveChanges();
+            }
+        }
     }
 }
