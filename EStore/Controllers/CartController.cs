@@ -98,5 +98,39 @@ namespace EStore.Controllers
 
             return View(cart);
         }
+
+        [Authorize]
+        public ActionResult UpdateItem(int productId, int newQty)
+        {
+            string account = User.Identity.Name;
+            newQty = newQty < 0 ? 0 : newQty;
+
+            UpdateItemQty(account, productId, newQty);
+
+            return new EmptyResult();
+        }
+
+        private void UpdateItemQty(string account, int productId, int newQty)
+        {
+            var cart = GetCartInfo(account);
+            var cartItem = cart.CartItems.FirstOrDefault(x => x.ProductId == productId);
+
+            using (var db = new AppDbContext())
+            {
+                var entity = db.CartItems.Find(cartItem.Id);
+                if (entity == null) return;
+
+                if(newQty == 0)
+                {
+                    db.CartItems.Remove(entity);
+                }
+                else
+                {
+                    entity.Qty = newQty;
+                }
+
+                db.SaveChanges();
+            }
+        }
     }
 }

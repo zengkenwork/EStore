@@ -62,7 +62,9 @@
 	.add CartController, add AddItem(int productId) action
 
 [Working On] 顯示購物車資訊, 實作增減數量的功能
-	.modify CartController, addInfo action 顯示購物車明細, 這時的數量增減還不能運作
+	.modify CartController, addInfo action 顯示購物車明細
+	.add UpdateItem(productId, newQty) action
+	.在_layout 加入'購物車'連結
 
 [] 實作發送 Email 功能
 [] 註冊成功後。寄送Email

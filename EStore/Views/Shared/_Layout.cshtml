@@ -27,11 +27,12 @@
                 <ul class="navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
+                        <li>@Html.ActionLink("購物車", "Info", "Cart", new { area = "" }, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("會員中心", "Index", "Members", new { area = "" }, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("登出", "Logout", "Members", new { area = "" }, new { @class = "nav-link" })</li>
                     }
                     else
-                    { 
+                    {
                         <li>@Html.ActionLink("註冊會員", "Register", "Members", new { area = "" }, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("登入", "Login", "Members", new { area = "" }, new { @class = "nav-link" })</li>
                     }
